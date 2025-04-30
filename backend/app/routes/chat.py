@@ -7,15 +7,16 @@ import os
 import shutil
 import asyncio
 import json
-from ..api.models import ChatRequest, DocumentUploadRequest, SearchResult, HealthCheckResponse
-from ..rag.data_loader import load_and_index_documents
-from ..rag.vector_db import build_vector_store
-from ..rag.advanced_retriever import AdvancedRetriever
+from api.models import ChatRequest, DocumentUploadRequest, SearchResult, HealthCheckResponse
+from rag.data_loader import load_and_index_documents
+from rag.vector_db import build_vector_store
+from rag.advanced_retriever import AdvancedRetriever
 # 初始化LLM（示例实现）
-from ..utils.AzureChatOpenAIUtil import AzureChatOpenAIUtil
+from utils.AzureChatOpenAIUtil import AzureChatOpenAIUtil
 
+# 创建路由实例
+chat = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
-router = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
 
 # 依赖项注入
@@ -30,7 +31,7 @@ def get_retriever(request: ChatRequest):
     )
 
 # 文件上传API
-@router.post("/upload")
+@chat.post("/upload")
 async def upload_documents_for_chat(
     files: List[UploadFile] = File(...),
     company: str = Form(...),
@@ -73,7 +74,7 @@ async def upload_documents_for_chat(
         raise HTTPException(status_code=500, detail=str(e))
 
 # 流式聊天API
-@router.post("/stream")
+@chat.post("/stream")
 async def chat_stream(
     request: ChatRequest,
     retriever: AdvancedRetriever = Depends(get_retriever)

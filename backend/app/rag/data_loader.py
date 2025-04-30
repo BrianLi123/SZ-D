@@ -3,7 +3,7 @@ import os
 from typing import List, Optional, Dict
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from ..rag.vector_db import build_vector_store
+from rag.vector_db import build_vector_store
 SUPPORTED_EXTENSIONS = {
     ".pdf": PyPDFLoader,
     ".docx": Docx2txtLoader,
