@@ -22,7 +22,7 @@ def get_vector_store(index_name: str):
 
 def get_retriever(
     search_request: SearchRequest,
-    vector_store = Depends(get_vector_store)
+    vector_store = Depends(get_vector_store("brian-test"))
 ):
     return AdvancedRetriever(
         vector_store=vector_store,

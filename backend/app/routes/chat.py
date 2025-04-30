@@ -20,7 +20,10 @@ router = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
 # 依赖项注入
 def get_retriever(request: ChatRequest):
-    vector_store = build_vector_store(request.index_name)
+    #固定用这个索引
+    index_name = "brian-test"
+    vector_store = build_vector_store(index_name)
+    # vector_store = build_vector_store(request.index_name)
     return AdvancedRetriever(
         vector_store=vector_store,
         company=request.chatroomID  # 使用chatroomID过滤
