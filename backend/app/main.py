@@ -1,21 +1,31 @@
 from fastapi import FastAPI,APIRouter
+from fastapi import FastAPI, HTTPException
 import sys
 import os
-
+from dotenv import load_dotenv
+from app.routes.chat import chat
 # 获取项目根目录路径
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 
-
+# 指定.env文件的路径
+dotenv_path = os.path.join(os.getcwd(), '.env', '.env')
+load_dotenv(dotenv_path)
 
 # 创建应用实例
 app = FastAPI(
-    title="My FastAPI Service",
-    version="1.0.0",
-    debug=True
+    title="智能文档分析系统",
+    description="集成RAG的智能文档分析与问答系统",
+    version="2.0.0",
+    openapi_tags=[
+        {
+            "name": "Chat Operations",
+            "description": "实时聊天与文档交互相关接口"
+        }
+    ]
 )
 
-
+app.include_router(chat.router)
 
 @app.post("/chat/hkt2",tags=["hkt2"])
 async def api_test2():
