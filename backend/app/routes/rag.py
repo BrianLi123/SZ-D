@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from typing import List
 import tempfile
 import os
-from ..models import (
+from ..api.models import (
     DocumentUploadRequest,
     SearchRequest,
     SearchResult,

@@ -7,12 +7,14 @@ import os
 import shutil
 import asyncio
 import json
-from ..models import ChatRequest, DocumentUploadRequest, SearchResult, HealthCheckResponse
+from ..api.models import ChatRequest, DocumentUploadRequest, SearchResult, HealthCheckResponse
 from ..rag.data_loader import load_and_index_documents
 from ..rag.vector_db import build_vector_store
 from ..rag.advanced_retriever import AdvancedRetriever
 # 初始化LLM（示例实现）
 from ..utils.AzureChatOpenAIUtil import AzureChatOpenAIUtil
+
+
 router = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
 
