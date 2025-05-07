@@ -1,0 +1,6 @@
+dist
+*.yaml
+node_modules/
+.vscode
+.nvmrc
+备份/

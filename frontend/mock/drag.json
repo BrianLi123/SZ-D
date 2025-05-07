@@ -1,0 +1,869 @@
+{
+    "code": 200,
+    "list": [
+        {
+            "object": "Direct Attributes",
+            "level": 0,
+            "list": [
+                {
+                    "object": "Customer Profile",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ADDR_CITY"
+                        },
+                        {
+                            "attribute": "ADDR_COUNTRY"
+                        },
+                        {
+                            "attribute": "ADDR_POSTAL_CODE"
+                        },
+                        {
+                            "attribute": "ADDR_PROVINCE"
+                        },
+                        {
+                            "attribute": "ADDR_REGION"
+                        },
+                        {
+                            "attribute": "ADDR_STATE"
+                        },
+                        {
+                            "attribute": "ADDR_TYPE"
+                        },
+                        {
+                            "attribute": "APP_CONTACTABLE_FLG_P12M"
+                        },
+                        {
+                            "attribute": "APP_CONTACTABLE_FLG_P24M"
+                        },
+                        {
+                            "attribute": "APP_CONTACTABLE_FLG_P6M"
+                        },
+                        {
+                            "attribute": "BAD_EMAIL_UDFC19"
+                        },
+                        {
+                            "attribute": "BUSINESS_P60M"
+                        },
+                        {
+                            "attribute": "COMPANY"
+                        },
+                        {
+                            "attribute": "CONTACT_MOBILE"
+                        },
+                        {
+                            "attribute": "COUNTRY_OF_RESIDENCE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Profile Details",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "GC_NUMBER"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        },
+                        {
+                            "attribute": "IS_CHINA_DOMAIN"
+                        },
+                        {
+                            "attribute": "Key Qualifier NAME_ID"
+                        },
+                        {
+                            "attribute": "ADDR_TYPE"
+                        },
+                        {
+                            "attribute": "NAME_ID"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Profile Info",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        },
+                        {
+                            "attribute": "IS_CHINA_DOMAIN"
+                        },
+                        {
+                            "attribute": "Key Qualifier NAME_ID"
+                        },
+                        {
+                            "attribute": "NAME_ID"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Profile SLC Details",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ACTIVATION_DATE"
+                        },
+                        {
+                            "attribute": "ALLOW_NOTIFICATION_PUSH"
+                        },
+                        {
+                            "attribute": "APP_EXPIRED_TIME"
+                        },
+                        {
+                            "attribute": "APP_LAST_ACTIVE_TIME"
+                        },
+                        {
+                            "attribute": "APP_LOGIN_LANGUAGE"
+                        },
+                        {
+                            "attribute": "Key Qualifier NAME_ID"
+                        },
+                        {
+                            "attribute": "NAME_ID"
+                        }
+                    ]
+                },
+                {
+                    "object": "SLC Member Info",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ACTIVATION_DATE"
+                        },
+                        {
+                            "attribute": "ALLOW_NOTIFICATION_PUSH"
+                        },
+                        {
+                            "attribute": "APP_EXPIRED_TIME"
+                        },
+                        {
+                            "attribute": "APP_LAST_ACTIVE_TIME"
+                        },
+                        {
+                            "attribute": "APP_LAST_LOGIN_TIME"
+                        },
+                        {
+                            "attribute": "APP_LOGIN_LANGUAGE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Unified Individual 0002",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "First Name"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        },
+                        {
+                            "attribute": "Last Name"
+                        },
+                        {
+                            "attribute": "Mobile"
+                        },
+                        {
+                            "attribute": "Unified Individual Id"
+                        }
+                    ]
+                },
+                {
+                    "object": "Unified Individual R001",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "First Name"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        },
+                        {
+                            "attribute": "Last Name"
+                        },
+                        {
+                            "attribute": "Mobile"
+                        },
+                        {
+                            "attribute": "Unified Individual Id"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "object": "Related Attributes",
+            "level": 0,
+            "list": [
+                {
+                    "object": "Customer Activities - FnB & Spa",
+                    "level": 1,
+                    "list": [
+                        {
+                            "object": "Customer Profile",
+                            "level": 2,
+                            "list": [
+                                {
+                                    "object": "Customer Activities - Stay",
+                                    "level": 3,
+                                    "list": [
+                                        {
+                                            "attribute": "BANQ_REV_P12M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_P18M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_P24M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_P36M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_P60M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_P6M"
+                                        },
+                                        {
+                                            "attribute": "BANQ_REV_YTD"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N1M"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N1M_LRM_TYPE"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N1WK"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N1WK_LRM_TYPE"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N2WK"
+                                        },
+                                        {
+                                            "attribute": "BOOKING_N2WK_LRM_TYPE"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "attribute": "ADDR_CITY"
+                                },
+                                {
+                                    "attribute": "ADDR_COUNTRY"
+                                },
+                                {
+                                    "attribute": "ADDR_POSTAL_CODE"
+                                },
+                                {
+                                    "attribute": "ADDR_PROVINCE"
+                                },
+                                {
+                                    "attribute": "ADDR_REGION"
+                                },
+                                {
+                                    "attribute": "ADDR_STATE"
+                                },
+                                {
+                                    "attribute": "ADDR_TYPE"
+                                },
+                                {
+                                    "attribute": "APP_CONTACTABLE_FLG_P12M"
+                                },
+                                {
+                                    "attribute": "APP_CONTACTABLE_FLG_P24M"
+                                },
+                                {
+                                    "attribute": "APP_CONTACTABLE_FLG_P6M"
+                                },
+                                {
+                                    "attribute": "BAD_EMAIL_UDFC19"
+                                },
+                                {
+                                    "attribute": "BUSINESS_P60M"
+                                },
+                                {
+                                    "attribute": "COMPANY"
+                                },
+                                {
+                                    "attribute": "CONTACT_MOBILE"
+                                },
+                                {
+                                    "attribute": "COUNTRY_OF_RESIDENCE"
+                                }
+                            ]
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "FNB_REV_P12M"
+                        },
+                        {
+                            "attribute": "FNB_REV_P18M"
+                        },
+                        {
+                            "attribute": "FNB_REV_P24M"
+                        },
+                        {
+                            "attribute": "FNB_REV_P36M"
+                        },
+                        {
+                            "attribute": "FNB_REV_P60M"
+                        },
+                        {
+                            "attribute": "FNB_REV_P6M"
+                        },
+                        {
+                            "attribute": "FNB_REV_PB_P12M"
+                        },
+                        {
+                            "attribute": "FNB_REV_PB_P18M"
+                        },
+                        {
+                            "attribute": "FNB_REV_PB_P24M"
+                        },
+                        {
+                            "attribute": "FNB_REV_PB_P36M"
+                        },
+                        {
+                            "attribute": "FNB_REV_PB_P6M"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Activities - Stay",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "BANQ_REV_P12M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_P18M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_P24M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_P36M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_P60M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_P6M"
+                        },
+                        {
+                            "attribute": "BANQ_REV_YTD"
+                        },
+                        {
+                            "attribute": "BOOKING_N1M"
+                        },
+                        {
+                            "attribute": "BOOKING_N1M_LRM_TYPE"
+                        },
+                        {
+                            "attribute": "BOOKING_N1WK"
+                        },
+                        {
+                            "attribute": "BOOKING_N1WK_LRM_TYPE"
+                        },
+                        {
+                            "attribute": "BOOKING_N2WK"
+                        },
+                        {
+                            "attribute": "BOOKING_N2WK_LRM_TYPE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Activities All",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ACTIVE_NON_STAY_FNB_P12M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_FNB_P18M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_FNB_P24M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_FNB_P36M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_FNB_P6M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_P12M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_P18M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_P24M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_P36M_IND"
+                        },
+                        {
+                            "attribute": "ACTIVE_NON_STAY_P6M_IND"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Reservation Record",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ADULTS"
+                        },
+                        {
+                            "attribute": "ARRIVAL_DATE"
+                        },
+                        {
+                            "attribute": "BOOK_DATE"
+                        },
+                        {
+                            "attribute": "CHANNEL"
+                        },
+                        {
+                            "attribute": "CHANNEL_SUBGROUP"
+                        },
+                        {
+                            "attribute": "CHILDREN"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Score",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "CUS_SCORE1"
+                        },
+                        {
+                            "attribute": "CUS_SCORE2"
+                        },
+                        {
+                            "attribute": "CUS_SCORE3"
+                        },
+                        {
+                            "attribute": "CUS_SCORE4"
+                        },
+                        {
+                            "attribute": "CUS_SCORE5"
+                        },
+                        {
+                            "attribute": "CUS_SEG1"
+                        },
+                        {
+                            "attribute": "CUS_SEG2"
+                        },
+                        {
+                            "attribute": "CUS_SEG3"
+                        }
+                    ]
+                },
+                {
+                    "object": "Customer Stay Record",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ARRIVAL_DATE"
+                        },
+                        {
+                            "attribute": "BANQUET_REV"
+                        },
+                        {
+                            "attribute": "BASE_NIGHT"
+                        },
+                        {
+                            "attribute": "BASE_POINT"
+                        },
+                        {
+                            "attribute": "BASE_STAY"
+                        },
+                        {
+                            "attribute": "BONUS_NIGHT"
+                        }
+                    ]
+                },
+                {
+                    "object": "Engagement Histories",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Channel"
+                        },
+                        {
+                            "attribute": "ContactKey"
+                        },
+                        {
+                            "attribute": "CreatedDate"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "Description"
+                        },
+                        {
+                            "attribute": "BASE_STAY"
+                        },
+                        {
+                            "attribute": "BONUS_NIGHT"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member APP",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ALLOW_NOTIFICATION_PUSH"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "DEVICE_ID"
+                        },
+                        {
+                            "attribute": "Id"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Issued Awards",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ACTUAL_CANCEL_POINTS"
+                        },
+                        {
+                            "attribute": "ACTUAL_PENALTY_POINTS"
+                        },
+                        {
+                            "attribute": "ARRIVAL_DATE"
+                        },
+                        {
+                            "attribute": "AWARD_CANCEL_DATE"
+                        },
+                        {
+                            "attribute": "AWARD_CANCELLATION_NO"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Partner Account",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "ENROLLMENT_CODE"
+                        },
+                        {
+                            "attribute": "EXPIRATION_DATE"
+                        },
+                        {
+                            "attribute": "INSERT_DATE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Partner Program Activities",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "Have_Convert_Points"
+                        },
+                        {
+                            "attribute": "Id"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Redemption",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "AWARD_ITEM"
+                        },
+                        {
+                            "attribute": "AWARD_JOINT_ID"
+                        },
+                        {
+                            "attribute": "B360_CONF_NO"
+                        },
+                        {
+                            "attribute": "CHECK_IN"
+                        },
+                        {
+                            "attribute": "CHECK_OUT"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Statement",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "CLOSING_BALANCE_POINTS"
+                        },
+                        {
+                            "attribute": "CONSUMED_POINTS"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "EARNED_POINTS"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Status Change",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "CHANGE_TYPE"
+                        },
+                        {
+                            "attribute": "CREATED_TIME"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "EXPIRE_DATE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Member Tier Change",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "CHANGE_TYPE"
+                        },
+                        {
+                            "attribute": "CREATED_TIME"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "FROM_TIER"
+                        }
+                    ]
+                },
+                {
+                    "object": "Members Tier Change - UAT2",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "change_type"
+                        },
+                        {
+                            "attribute": "create_time"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "expire_date"
+                        }
+                    ]
+                },
+                {
+                    "object": "Members Tier Status Change",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "change_type"
+                        },
+                        {
+                            "attribute": "create_time"
+                        },
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "expire_date"
+                        }
+                    ]
+                },
+                {
+                    "object": "Membership Promotions",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "ENROLLMENT_DATE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Membership Transactions",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ADJUSTMENT_YN"
+                        },
+                        {
+                            "attribute": "BASE_BILLING_GROUP"
+                        },
+                        {
+                            "attribute": "BEGIN_DATE"
+                        },
+                        {
+                            "attribute": "BILLING_GROUP"
+                        },
+                        {
+                            "attribute": "BONUS_BILLING_GROUP"
+                        },
+                        {
+                            "attribute": "BOOKED_ROOM_LABEL"
+                        }
+                    ]
+                },
+                {
+                    "object": "SLC Member",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "ACTIVATION_DATE"
+                        },
+                        {
+                            "attribute": "ALLOW_NOTIFICATION_PUSH"
+                        },
+                        {
+                            "attribute": "APP_EXPIRED_TIME"
+                        },
+                        {
+                            "attribute": "APP_LAST_ACTIVE_TIME"
+                        },
+                        {
+                            "attribute": "APP_LAST_LOGIN_TIME"
+                        },
+                        {
+                            "attribute": "APP_LOGIN_LANGUAGE"
+                        }
+                    ]
+                },
+                {
+                    "object": "Voucher Order",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Business_Class"
+                        },
+                        {
+                            "attribute": "Business_Unit"
+                        },
+                        {
+                            "attribute": "Check-in_Date"
+                        },
+                        {
+                            "attribute": "Check-out_Date"
+                        },
+                        {
+                            "attribute": "Check_No"
+                        },
+                        {
+                            "attribute": "Currency"
+                        }
+                    ]
+                },
+                {
+                    "object": "Wechat Profile",
+                    "level": 1,
+                    "list": [
+                        {
+                            "attribute": "Data Source"
+                        },
+                        {
+                            "attribute": "Data Source Object"
+                        },
+                        {
+                            "attribute": "Id"
+                        },
+                        {
+                            "attribute": "Internal Organization"
+                        },
+                        {
+                            "attribute": "KQ_Id"
+                        },
+                        {
+                            "attribute": "KQ_membership_card_no"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

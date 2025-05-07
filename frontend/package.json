@@ -1,30 +1,56 @@
 {
-    "name": "business-rag-ui",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "vite",
-      "build": "vite build",
-      "preview": "vite preview",
-      "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-      "format": "prettier --write src/"
-    },
-    "dependencies": {
-      "axios": "^1.6.5",
-      "pinia": "^2.1.7",
-      "vue": "^3.4.19",
-      "vue-router": "^4.2.5",
-      "element-plus": "^2.5.4",
-      "sass": "^1.69.5"
-    },
-    "devDependencies": {
-      "@vitejs/plugin-vue": "^4.5.2",
-      "@vue/eslint-config-prettier": "^8.0.0",
-      "eslint": "^8.55.0",
-      "eslint-plugin-vue": "^9.17.0",
-      "prettier": "^3.1.1",
-      "vite": "^5.0.8",
-      "vite-plugin-mock": "^3.0.1",
-      "@types/node": "^20.10.3"
-    }
+  "name": "react-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/plots": "^2.1.12",
+    "@ant-design/pro-components": "^2.6.50",
+    "@reduxjs/toolkit": "^1.9.0",
+    "ahooks": "^3.7.2",
+    "antd": "^5.22.2",
+    "axios": "^1.2.0",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.10",
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-countup": "^6.4.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.14.0",
+    "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/styled-components": "^5.1.26",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "@vitejs/plugin-react": "^2.2.0",
+    "eslint": "^8.28.0",
+    "eslint-config-alloy": "^4.7.0",
+    "eslint-plugin-react": "^7.31.11",
+    "less": "^4.2.0",
+    "prettier": "^2.8.0",
+    "type-fest": "^3.6.1",
+    "typescript": "^5.1.6",
+    "unplugin-auto-import": "^0.12.0",
+    "vite": "^4.3.9"
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=7"
   }
+}
