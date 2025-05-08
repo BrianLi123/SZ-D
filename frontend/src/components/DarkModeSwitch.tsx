@@ -25,6 +25,10 @@ export function DarkModeConfigProvider({
   const isDarkMode = useAppSelector(selectIsDarkMode);
   useEffect(() => {
     document.body.className = isDarkMode ? 'dark' : '';
+    document.documentElement.style.setProperty(
+      '--custom-layout-bg',
+      isDarkMode ? 'dark' : ''
+    );
   }, [isDarkMode]);
   return (
     <ConfigProvider

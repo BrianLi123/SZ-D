@@ -15,7 +15,7 @@ export function ThemeColorConfigProvider({
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: themeColor
+          colorPrimary: themeColor,
         }
       }}
     >

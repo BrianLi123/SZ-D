@@ -58,25 +58,26 @@ const ChatBox: React.FC = () => {
       newFileList.splice(index, 1);
       setFileList(newFileList);
     },
-    beforeUpload: (file) => {
-      setFileList([...fileList, file]);
+    beforeUpload: async (file) => {
+      setUploading(true);
+      try {
+        const response = await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('上传成功');
+            setFileList([...fileList, file]);
+            message.success(`${file.name} 上传成功`);
+          }, 2000);
+        });
+        console.log('response', response);
+      } finally {
+        setUploading(false);
+      }
       return false;
     },
     fileList,
     // 自定义文件列表项的显示内容
-    itemRender: (originNode, file, fileList) => {
-      return (
-        <div
-          style={{
-            // display: 'flex',
-            // justifyContent: 'space-between',
-            // alignItems: 'center',
-            width: '116px'
-          }}
-        >
-          {originNode} {/* 原始文件节点（文件名、操作按钮等） */}
-        </div>
-      );
+    itemRender: (originNode) => {
+      return <div style={{ width: '116px' }}>{originNode}</div>;
     }
   };
 
@@ -95,20 +96,22 @@ const ChatBox: React.FC = () => {
             </div>
           ))}
           {loading && <div className="message bot">Generating answer...</div>}
+          <div ref={messagesEndRef} />
         </div>
         <div className="chat-input">
           <Upload {...props}>
-            <Button type="primary">上传业务文档</Button>
+            <Button type="primary" loading={uploading}>
+              上传业务文档
+            </Button>
           </Upload>
           <TextArea
             placeholder="Ask a question..."
-            // rows={1}
             autoSize={{ maxRows: 1 }}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <Button type="primary" onClick={sendMessage}>
+          <Button type="primary" loading={loading} onClick={sendMessage}>
             Send
           </Button>
         </div>

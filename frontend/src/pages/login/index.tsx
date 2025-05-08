@@ -37,7 +37,7 @@ export default function Login() {
     await dispatch(
       login({ username: values.username, password: values.password })
     ).unwrap(); // return originalPromiseResult
-    // message.success('登录成功');
+    message.success('登录成功');
     navigate(
       prev_page_location
         ? prev_page_location.pathname + prev_page_location.search

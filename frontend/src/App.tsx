@@ -10,6 +10,7 @@ import 'dayjs/locale/zh-hk';
 type Locale = ConfigProviderProps['locale'];
 
 function AdminApp() {
+  useGlobalTips();
   const lang = useAppSelector(selectLanguage);
   dayjs.locale(lang === 'hk' ? 'zh-hk' : lang);
 

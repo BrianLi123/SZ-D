@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { selectLayoutMode } from '@/store/reducer/layoutSlice';
 import { LocalSettingsDrawer } from './components/LocalSettings';
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import Header from './components/Header';
 import Sider from './components/Sider';
 import Content from './components/Content';
@@ -14,7 +14,9 @@ export default function DefaultLayout() {
   return (
     <Layout hasSider={layoutMode === 'sidemenu'}>
       <Sider />
-      <Layout className="site-layout">
+      <Layout
+        className="site-layout"
+      >
         <Header />
         <Content />
         {/* <Footer /> */}
