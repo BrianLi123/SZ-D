@@ -18,7 +18,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <PersistGate loading={null} persistor={persistor}>
       <DarkModeConfigProvider>
         <ThemeColorConfigProvider>
-          <App>
+          <App
+            message={{ maxCount: 1 }}
+            notification={{ maxCount: 1, placement: 'bottom' }}
+          >
             <AdminApp />
           </App>
         </ThemeColorConfigProvider>

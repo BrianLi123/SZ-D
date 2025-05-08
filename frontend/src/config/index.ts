@@ -6,8 +6,7 @@ const config = {
   },
   // 请求配置
   api: {
-    baseUrl:
-      'https://www.fastmock.site/mock/d6f0134049a0e22b01d7aae6fafc9045/api',
+    baseUrl: 'http://localhost:3004/api',
     timeout: 30000,
     sessionKey: 'sessionkey',
     status: {

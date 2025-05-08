@@ -1,19 +1,10 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import localConfig from '@/config';
-import { selectToken } from '@/store/reducer/userSlice';
 import { store, persistor } from '@/store';
-import { message } from '@/hooks/useGlobalTips';
-import { downloadStreamFile } from '@/utils/utils';
+import { downloadStreamFile } from '@/utils';
 
 type HttpStatusCode = keyof typeof localConfig.api.status;
-
-export interface DTO<ResDataType = any> {
-  Code: HttpStatusCode;
-  Data: ResDataType;
-  Message: string | undefined;
-  Success: boolean;
-}
 
 class Request {
   private instance: AxiosInstance;
@@ -29,82 +20,88 @@ class Request {
     // 请求拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        const token = selectToken(store.getState());
-        if (token) {
-          config.headers![localConfig.api.sessionKey] = token;
-        }
+        config.headers.Authorization = `Bearer ${
+          JSON.parse(localStorage.getItem('tokens') as string)?.token
+        }`;
+        const lang = selectLanguage(store.getState());
+        // config.data.lang = localConfig.langConfig[lang as LangConfig] || 'ENG';
         return config;
       },
       (error) => {
-        return Promise.reject(error);
+        return Promise.reject(new Error(error));
       }
     );
     // 响应拦截器
     this.instance.interceptors.response.use(
-      (response: AxiosResponse<DTO>) => {
-        const { headers, data } = response;
-        if (headers['content-type']?.includes('application/json')) {
-          // 服务端自定义的一套状态码，并不是真实的http状态码，如果处理http状态码错误，请至下面error错误函数中修改
-          if (data.Code !== 200) {
-            const errorText =
-              data.Message ||
-              localConfig.api.status[data.Code as HttpStatusCode] ||
-              'HTTP响应错误';
-            data.Code === 401 && persistor.purge(); // 退出登录
-            message.error(errorText);
-            return Promise.reject(errorText);
-          }
-        }
+      (response: AxiosResponse) => {
+        // const { headers, data } = response;
+        // if (headers['content-type']?.includes('application/json')) {
+        //   const { code, msg } = data.status;
+        //   // 服务端自定义的一套状态码，并不是真实的http状态码，如果处理http状态码错误，请至下面error错误函数中修改
+        //   if (code !== 0) {
+        //     const errorText =
+        //       msg ||
+        //       localConfig.api.status[code as HttpStatusCode] ||
+        //       'HTTP响应错误';
+        //     code === 401 && persistor.purge(); // 退出登录
+        //     notification.error({
+        //       message: errorText
+        //     });
+        //     return Promise.reject(new Error(errorText));
+        //   }
+        // }
         return response;
       },
       (error) => {
+        const errorObj = JSON.parse(JSON.stringify(error));
+        if (errorObj?.status === 401) {
+          setTimeout(() => {
+            const event = new CustomEvent('http-401-logout');
+            window.dispatchEvent(event);
+          }, 1000);
+        }
+
         // 这里处理http状态码错误
-        message.error(`${error.message}, 请检查网络或联系管理员`);
-        return Promise.reject(error);
+        notification.error({
+          message: `${error.message}, 请检查网络或联系管理员`
+        });
+        return Promise.reject(new Error(error));
       }
     );
   }
 
   /**
    * Get 请求
-   * @param url
-   * @param config
-   * @returns {DTO.Data} return response.data.Data
    */
   public get<ResData = any>(
     url: string,
     config?: AxiosRequestConfig
-  ): Promise<ResData> {
+  ): Promise<SuccessResponse<ResData>> {
     return this.instance
-      .get<DTO<ResData>>(url, config)
-      .then(({ data }) => data.Data);
+      .get<SuccessResponse<ResData>>(url, config)
+      .then(({ data }) => data)
+      .catch((err) => err);
   }
 
   /**
    * Post 请求
-   * @param url
-   * @param data
-   * @param config
-   * @returns {DTO.Data} 直接返回数据部分 return response.data.Data
    */
   public post<Params = any, ResData = any>(
     url: string,
     data: Params,
     config?: AxiosRequestConfig
-  ): Promise<ResData> {
+  ): Promise<SuccessResponse<ResData>> {
     return this.instance
-      .post<DTO<ResData>>(url, data, config)
-      .then(({ data }) => data.Data);
+      .post<SuccessResponse<ResData>>(url, data, config)
+      .then(({ data }) => data)
+      .catch((err) => err);
   }
 
   /**
    * 获取Blob数据
-   * @param url
-   * @param data
-   * @param config
-   * @returns
    */
-  public getBlob<Params = any>(
+
+  public blob<Params = any>(
     url: string,
     data: Params,
     config?: AxiosRequestConfig
@@ -113,30 +110,25 @@ class Request {
     filename?: string;
     fileType?: string;
   }> {
-    return this.post(url, data, { responseType: 'blob', ...config }).then(
-      (res) => {
+    return this.instance
+      .post(url, data, { responseType: 'blob', ...config })
+      .then((res) => {
         const { data, headers } = res;
-        // if (headers['content-type'] === 'application/octet-stream') {}
         const fileType = headers['content-type'];
-        const filename = headers['content-disposition'].split('=')[1];
+        const filename = headers['content-disposition']?.split('=')[1];
         return { blob: data, filename: decodeURIComponent(filename), fileType };
-      }
-    );
+      });
   }
 
   /**
    * 请求流数据文件并直接下载
-   * @param url
-   * @param data
-   * @param config
-   * @returns
    */
-  public async getStreamFileToDownload<Params = any>(
+  public async download<Params = any>(
     url: string,
     data: Params,
     config?: AxiosRequestConfig
   ) {
-    const { blob, filename, fileType } = await this.getBlob(url, data, config);
+    const { blob, filename, fileType } = await this.blob(url, data, config);
     downloadStreamFile(blob, filename, fileType);
     return { blob, filename, fileType };
   }
@@ -148,7 +140,7 @@ class Request {
    */
   public request<ResData = any>(config: AxiosRequestConfig) {
     return this.instance
-      .request<DTO<ResData>>(config)
+      .request<SuccessResponse<ResData>>(config)
       .then((response) => response.data);
   }
 }

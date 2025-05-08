@@ -3,7 +3,7 @@ module.exports = {
     'alloy',
     'alloy/react',
     'alloy/typescript',
-    './.eslintrc-auto-import.json',
+    './.eslintrc-auto-import.json'
   ],
   env: {
     // 你的环境变量（包含多个预定义的全局变量）
@@ -17,7 +17,10 @@ module.exports = {
   globals: {
     // 你的全局变量（设置为 false 表示它不允许被重新赋值）
     // myGlobal: false
-    API: 'readonly',
+    LabelValue: 'readonly',
+    SearchCommonParams: 'readonly',
+    SuccessResponse: 'readonly',
+    React: 'readonly',
     Expand: 'readonly',
     ExpandRecursively: 'readonly'
   },
