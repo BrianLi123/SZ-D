@@ -40,3 +40,7 @@ config.ini
 .env
 
 myenv/
+
+*.json
+
+*.yaml
