@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import './index.css';
+import { getChatStream } from '@/services/chat';
 const { TextArea } = Input;
 
 interface Message {
@@ -29,10 +30,25 @@ const ChatBox: React.FC = () => {
     // 模拟机器人响应
     setLoading(true);
     try {
-      const response = await new Promise<string>((resolve) => {
-        setTimeout(() => resolve('This is a bot response.'), 2000);
-      });
-      setMessages((prev) => [...prev, { text: response, sender: 'bot' }]);
+      // const response = await new Promise<string>((resolve) => {
+      //   setTimeout(() => resolve('This is a bot response.'), 2000);
+      // });
+      const params = {
+        approach: '',
+        chatroomID: 'fwagwe',
+        history: [
+          {
+            user: inputValue
+          }
+        ]
+      };
+      const res = await getChatStream(params);
+      // if (res) {
+      //   const response = res.data;
+      //   console.log('response', response);
+      //   setMessages((prev) => [...prev, { text: response, sender: 'bot' }]);
+      // }
+      // setMessages((prev) => [...prev, { text: response, sender: 'bot' }]);
     } finally {
       setLoading(false);
     }
