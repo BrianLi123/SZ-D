@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Input } from 'antd';
 import './index.css';
-import { ButtonColorType } from 'antd/es/button';
 const { TextArea } = Input;
 
 interface Message {

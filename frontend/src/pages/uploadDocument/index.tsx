@@ -1,3 +1,4 @@
+import { getChatUpload } from '@/services/chat';
 import { Upload, Button } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
 
@@ -6,6 +7,7 @@ export default function UploadDocument() {
   const [uploading, setUploading] = useState(false);
   const props: UploadProps = {
     listType: 'text',
+    maxCount: 1,
     onRemove: (file) => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
@@ -15,14 +17,22 @@ export default function UploadDocument() {
     beforeUpload: async (file) => {
       setUploading(true);
       try {
-        const response = await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve('上传成功');
-            setFileList([...fileList, file]);
-            message.success(`${file.name} 上传成功`);
-          }, 2000);
-        });
-        console.log('response', response);
+        // 手动上传
+        const formData = new FormData();
+        formData.append('file', file as Blob);
+        const res = await getChatUpload(formData);
+        if (res) {
+          setFileList([file]);
+          message.success(`${file.name} 上传成功`);
+        }
+        // const response = await new Promise((resolve) => {
+        //   setTimeout(() => {
+        //     resolve('上传成功');
+        //     setFileList([...fileList, file]);
+        //     message.success(`${file.name} 上传成功`);
+        //   }, 2000);
+        // });
+        // console.log('response', response);
       } finally {
         setUploading(false);
       }
