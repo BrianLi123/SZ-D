@@ -3,7 +3,7 @@ import os
 from typing import List, Optional, Dict
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from rag.vector_db import build_vector_store
+from rag.vector_db import init_vector_store
 SUPPORTED_EXTENSIONS = {
     ".pdf": PyPDFLoader,
     ".docx": Docx2txtLoader,
@@ -19,7 +19,7 @@ def load_and_index_documents(
     additional_metadata: Optional[Dict] = None
 ) -> int:
     """文档加载与索引增强版"""
-    vector_store = build_vector_store(index_name)
+    vector_store = init_vector_store(index_name)
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap

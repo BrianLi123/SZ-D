@@ -20,7 +20,7 @@ htmlcov/
 venv/
 env/
 .venv/
-
+.env
 # 日志文件
 *.log
 

@@ -10,7 +10,7 @@ from ..api.models import (
     HealthCheckResponse
 )
 from ..rag.data_loader import load_and_index_documents
-from ..rag.vector_db import build_vector_store
+from ..rag.vector_db import init_vector_store
 from ..rag.advanced_retriever import AdvancedRetriever
 
 
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/rag", tags=["RAG Operations"])
 
 # 依赖项提前定义
 def get_vector_store(index_name: str):
-    return build_vector_store(index_name)
+    return init_vector_store(index_name)
 
 def get_retriever(
     search_request: SearchRequest,
@@ -61,7 +61,7 @@ async def upload_documents(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/search/", response_model=List[SearchResult])
+# @router.post("/search/", response_model=List[SearchResult])
 async def search_documents(
     request: SearchRequest,
     retriever: AdvancedRetriever = Depends(get_retriever)

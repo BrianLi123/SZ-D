@@ -4,13 +4,13 @@ from fastapi.responses import StreamingResponse
 from typing import List, AsyncGenerator
 import tempfile
 import os
-import shutil
 import asyncio
 import json
 from api.models import ChatRequest, DocumentUploadRequest, SearchResult, HealthCheckResponse
 from rag.data_loader import load_and_index_documents
-from rag.vector_db import build_vector_store
 from rag.advanced_retriever import AdvancedRetriever
+from rag.tender_summary import HandleRetriever
+from rag.blob_client import Tender_2docblob
 # 初始化LLM（示例实现）
 from utils.AzureChatOpenAIUtil import AzureChatOpenAIUtil
 
@@ -19,25 +19,10 @@ chat = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
 
 
-# 依赖项注入
-def get_retriever(request: ChatRequest):
-    #固定用这个索引
-    index_name = "brian-test"
-    vector_store = build_vector_store(index_name)
-    # vector_store = build_vector_store(request.index_name)
-    return AdvancedRetriever(
-        vector_store=vector_store,
-        company=request.chatroomID  # 使用chatroomID过滤
-    )
-
 # 文件上传API
 @chat.post("/upload")
 async def upload_documents_for_chat(
-    files: List[UploadFile] = File(...),
-    company: str = Form(...),
-    chatroomID: str = Form(...),
-    index_name: str = Form("default-index"),
-    background_tasks: BackgroundTasks = BackgroundTasks()
+    file: UploadFile = File(...)
 ):
     """为特定聊天室上传并索引文档"""
     try:
@@ -45,47 +30,72 @@ async def upload_documents_for_chat(
         file_paths = []
         
         # 保存上传文件到临时目录
+        file_path = os.path.join(temp_dir, file.filename)
+        content = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(content)
+        file_paths.append(file_path)
+        file_name = Tender_2docblob(file_path)
+        HandleRetriever().handle(file_name)
+        
+        return {
+            "status": "processing",
+            "message": f"已接收{len(file)}个文件，正在后台处理"
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@chat.post("/upload")
+async def upload_documents_for_chat(
+    files: List[UploadFile] = File(...),
+):
+    """为特定聊天室上传并索引文档"""
+    try:
+        temp_dir = tempfile.mkdtemp()
+
+        # 保存上传文件到临时目录
         for file in files:
             file_path = os.path.join(temp_dir, file.filename)
             content = await file.read()
             with open(file_path, "wb") as f:
                 f.write(content)
-            file_paths.append(file_path)
+
         
-        # 后台执行索引任务
-        background_tasks.add_task(
-            load_and_index_documents,
-            file_paths=file_paths,
-            index_name=index_name,
-            company=company,
-            additional_metadata={"chatroomID": chatroomID}
-        )
+
         
+        
+        
+        # 添加清理任务
+        background_tasks.add_task(shutil.rmtree, temp_dir)
+
         # 添加清理任务
         background_tasks.add_task(shutil.rmtree, temp_dir)
         
         return {
             "status": "processing",
             "message": f"已接收{len(files)}个文件，正在后台处理",
-            "chatroomID": chatroomID
         }
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e))    
 
 # 流式聊天API
 @chat.post("/stream")
 async def chat_stream(
-    request: ChatRequest,
-    retriever: AdvancedRetriever = Depends(get_retriever)
+    request: ChatRequest
 ):
     async def event_generator():
         try:
             # 构建用户提问
+            print("进入这个接口了")
+            # company = request.company
+            retriever = AdvancedRetriever()   
+            print("22222")
             prompt = " ".join(
                 item["user"] for item in request.history if "user" in item
             ).strip()
-            
+            print("3333")
             # 流式生成响应
             async for token in stream_llm_response(prompt, retriever):
                 yield f"data: {json.dumps({'token': token})}\n\n".encode()
