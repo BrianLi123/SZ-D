@@ -26,6 +26,7 @@ async def upload_documents_for_chat(
 ):
     """为特定聊天室上传并索引文档"""
     try:
+        print("开始进入上传接口")
         temp_dir = tempfile.mkdtemp()
         file_paths = []
         
@@ -46,39 +47,6 @@ async def upload_documents_for_chat(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@chat.post("/upload")
-async def upload_documents_for_chat(
-    files: List[UploadFile] = File(...),
-):
-    """为特定聊天室上传并索引文档"""
-    try:
-        temp_dir = tempfile.mkdtemp()
-
-        # 保存上传文件到临时目录
-        for file in files:
-            file_path = os.path.join(temp_dir, file.filename)
-            content = await file.read()
-            with open(file_path, "wb") as f:
-                f.write(content)
-
-        
-
-        
-        
-        
-        # 添加清理任务
-        background_tasks.add_task(shutil.rmtree, temp_dir)
-
-        # 添加清理任务
-        background_tasks.add_task(shutil.rmtree, temp_dir)
-        
-        return {
-            "status": "processing",
-            "message": f"已接收{len(files)}个文件，正在后台处理",
-        }
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))    
 
 # 流式聊天API
 @chat.post("/stream")
