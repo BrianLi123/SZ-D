@@ -22,10 +22,34 @@ export default function useMenu() {
 
   const [state, setState] = useSetState<State>({
     openKeys: [],
-    selectKey: ''
+    selectKey: '/demandAnalysis'
   });
 
   const updateMenuState = ({ openKeys = [], selectKey }: State) => {
+    // Fix the issue of menu not being highlighted when there is a hidden attribute in multi-level sub routes
+    const arr = flatArrTree(menus, 'children');
+    let sKey = selectKey;
+    let opKeys = openKeys;
+    const noHiddenKeys = opKeys.filter((i) => {
+      const target = arr.filter((item: MenuItem) => item.key === i);
+      return !target?.[0]?.hidden;
+    });
+
+    const curMenuItemArr = arr.filter((i: MenuItem) => i.key === sKey);
+    // last child menuitem has hidden = true
+    if (
+      curMenuItemArr.length > 0 &&
+      curMenuItemArr[0]?.hidden &&
+      opKeys.length > 0 &&
+      noHiddenKeys.length === opKeys.length
+    ) {
+      sKey = opKeys[0] || selectKey;
+    } else if (noHiddenKeys.length !== opKeys.length) {
+      // last child menuitem has not hidden attr && parent menuitem has hidden attr
+      opKeys = noHiddenKeys;
+      sKey = opKeys?.[0] || selectKey;
+    }
+
     setState((prevState) => ({
       openKeys: openKeys.length > 0 ? openKeys : prevState.openKeys,
       selectKey
@@ -80,16 +104,27 @@ export default function useMenu() {
 const generateMenuItems = (data: MenuItem[]): ItemType[] => {
   const menu: ItemType[] = [];
   data.forEach((item) => {
+    if (item?.hidden) {
+      return false;
+    }
     let children;
     if (item.children) {
       children = generateMenuItems(item.children);
     }
-    menu.push({
+
+    const items = {
       key: item.key,
       label: item.label,
-      icon: <Icon type={item.icon} />,
-      children
-    } as ItemType);
+      icon: <Icon type={item.icon} />
+    };
+
+    if (children && children.length > 0) {
+      Object.assign(items, {
+        children
+      });
+    }
+
+    menu.push(items as ItemType);
   });
   return menu;
 };

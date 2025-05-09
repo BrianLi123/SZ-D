@@ -12,7 +12,7 @@ export default function ChangePassword() {
     console.log(values);
   };
   return (
-    <Card style={{ flex: 1 }} bordered={false}>
+    <Card style={{ flex: 1 }} variant="borderless">
       <Row>
         <Col xs={24} md={18} lg={16} xl={12} xxl={10}>
           <ProForm

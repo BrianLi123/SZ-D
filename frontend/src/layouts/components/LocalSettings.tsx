@@ -61,7 +61,7 @@ function ConfigItem({
   return (
     <Card
       size="small"
-      bordered={false}
+      variant="borderless"
       style={{
         width: '100%',
         marginBottom: 16,

@@ -20,7 +20,7 @@ export default function Ranking({
   return (
     <Card
       loading={loading}
-      bordered={false}
+      variant="borderless"
       title="XX排名"
       styles={{
         header: { fontWeight: 400 },

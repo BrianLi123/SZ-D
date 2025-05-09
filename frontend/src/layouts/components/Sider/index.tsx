@@ -38,6 +38,7 @@ export default function LayoutSider() {
         onClick={({ key, keyPath, domEvent }) => menu.onSelectKey(key)}
         openKeys={menu.openKeys}
         onOpenChange={menu.onOpenKeys}
+        className="side-menu"
       />
     </Sider>
   ) : null;

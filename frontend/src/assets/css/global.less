@@ -1,0 +1,149 @@
+@import './base.less';
+
+.text-secondary {
+  color: @text-color-secondary;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ant-tag {
+  font-weight: bold;
+  padding: 2px 10px;
+}
+
+.hidden-cancel {
+  .ant-btn-default {
+    display: none;
+  }
+}
+
+.inputAlign .ant-input-number-input-wrap .ant-input-number-input {
+  text-align: center;
+}
+
+.customProTableTitle {
+  padding: 16px 24px 0;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid rgba(5, 5, 5, 0.06);
+  border-bottom: unset;
+}
+
+.customProTableBorderNo {
+  border: none;
+}
+
+.customProTableSearchTitle {
+  .ant-pro-table-search {
+    border-top: unset;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    .ant-pro-query-filter {
+      padding-top: 16px;
+    }
+  }
+}
+
+.ant-menu-root {
+  border-inline-end: none !important;
+}
+
+.ant-notification-notice {
+  border-radius: 8px;
+}
+
+.ant-notification-notice-success {
+  color: white;
+  background-color: @success-color;
+}
+
+.ant-notification-notice-error {
+  background-color: @error-color;
+}
+.ant-notification-notice-info {
+  background-color: @primary-color;
+}
+.ant-notification-notice-warning {
+  background-color: @warning-color;
+}
+
+.ant-notification-notice-icon,
+.ant-notification-notice-close {
+  color: white !important;
+}
+
+.ant-notification .ant-notification-notice-wrapper {
+  .ant-notification-notice-message {
+    color: white;
+  }
+}
+
+.ant-input-affix-wrapper .ant-input-clear-icon,
+.anticon-close,
+.ant-select-clear .anticon-close-circle {
+  font-size: 14px;
+}
+
+.ant-pro-table-list-toolbar-title {
+  font-weight: 600;
+}
+
+.ant-modal-title {
+  text-align: center;
+}
+
+.ant-descriptions-row {
+  .ant-form-item {
+    width: 100%;
+  }
+}
+
+.side-menu:not(.ant-menu-inline-collapsed) {
+  .ant-menu-item,
+  .ant-menu-submenu .ant-menu-submenu-title {
+    padding: 10px 16px;
+    line-height: 20px;
+    height: auto;
+    .ant-menu-title-content {
+      white-space: normal;
+      text-overflow: initial;
+      overflow: visible;
+    }
+  }
+  .ant-menu-submenu .ant-menu-sub .ant-menu-title-content::before {
+    content: '';
+    position: absolute;
+    left: 32px;
+    top: 16px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.88);
+    margin-right: 16px;
+  }
+  .ant-menu-item-selected .ant-menu-title-content::before {
+    background-color: @primary-color !important;
+  }
+}
+
+.side-menu.ant-menu-inline-collapsed {
+  .ant-menu-submenu-selected {
+    .ant-menu-submenu-title {
+      background-color: #e6f4ff;
+    }
+  }
+}
+
+.ant-otp {
+  .ant-input {
+    height: 42px;
+    width: 42px;
+  }
+}

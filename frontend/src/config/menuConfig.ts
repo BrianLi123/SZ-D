@@ -5,6 +5,8 @@ export interface MenuItem {
   key: string;
   icon?: IconType;
   children?: MenuItem[];
+  hidden?: boolean;
+  code?: string;
 }
 
 export const menus: MenuItem[] = [
@@ -15,7 +17,12 @@ export const menus: MenuItem[] = [
   // },
   {
     label: '需求分析',
-    key: 'demandAnalysis',
-    icon: 'ClusterOutlined',
+    key: '/demandAnalysis',
+    icon: 'AppstoreOutlined'
+  },
+  {
+    label: '上传文档',
+    key: '/uploadDocument',
+    icon: 'UserOutlined',
   }
 ];
