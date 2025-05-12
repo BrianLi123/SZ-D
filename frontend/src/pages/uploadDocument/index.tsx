@@ -25,13 +25,6 @@ export default function UploadDocument() {
           setFileList([file]);
           message.success(`${file.name} 上传成功`);
         }
-        // const response = await new Promise((resolve) => {
-        //   setTimeout(() => {
-        //     resolve('上传成功');
-        //     setFileList([...fileList, file]);
-        //     message.success(`${file.name} 上传成功`);
-        //   }, 2000);
-        // });
         // console.log('response', response);
       } finally {
         setUploading(false);

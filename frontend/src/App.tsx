@@ -6,12 +6,10 @@ import router from '@/router/index';
 import Loading from '@/components/Loading';
 import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/zh-hk';
-import { testApi } from './services/chat';
 
 type Locale = ConfigProviderProps['locale'];
 
 function AdminApp() {
-  testApi();
   useGlobalTips();
   const lang = useAppSelector(selectLanguage);
   dayjs.locale(lang === 'hk' ? 'zh-hk' : lang);

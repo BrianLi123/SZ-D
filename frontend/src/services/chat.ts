@@ -16,10 +16,19 @@ export const testApi = async () => {
 //     }
 //   ]
 // }
+// export const getChatStream = async (params: any) => {
+//   const res = await request.post('/chat/stream', params);
+//   return res;
+// };
 export const getChatStream = async (params: any) => {
-  const res = await request.post('/chat/stream', params);
-  console.log('res', res);
-  return res;
+  const response = await fetch('http://localhost:3004/api/chat/stream', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(params)
+  });
+  return response;
 };
 
 export const getChatUpload = async (params: any) => {
