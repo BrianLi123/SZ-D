@@ -6,9 +6,11 @@ import json
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.prompts import PromptTemplate
 from rag.vector_db import create_documents_from_results,init_vector_store
+from azure.storage.blob import BlobServiceClient
+import os
 class HandleRetriever():
     def __init__(self):
-        self.llm = AzureChatOpenAIUtil(self.gpt_deployment).llm
+        self.llm = AzureChatOpenAIUtil("gpt4o").llm
 
     def handle_error(self, future):
         try:
@@ -18,11 +20,16 @@ class HandleRetriever():
             return {'error': str(e)}    
     def handle(self, file_name: str):
 
+
+        AZURE_STORAGE_ACCOUNT = os.environ["AZURE_STORAGE_ACCOUNT"]
+        AZURE_STORAGE_ACCOUNT_key = os.environ["AZURE_STORAGE_ACCOUNT_key"]
+        CONNECTION_STRING = f"DefaultEndpointsProtocol=https;AccountName={AZURE_STORAGE_ACCOUNT};AccountKey={AZURE_STORAGE_ACCOUNT_key};EndpointSuffix=core.windows.net"
+        blob_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
         # Load OCRed Tender Doc
         blob_name = file_name + ".pkl"
         container_name = "tenderdocs"
         print(f"processing container_name:{container_name},blob_name: {blob_name}")
-        downloader = self.blob_client.get_blob_client(container_name, blob_name).download_blob()
+        downloader = blob_client.get_blob_client(container_name, blob_name).download_blob()
         docs = pickle.loads(downloader.read())
         docs = docs[0].page_content
 
@@ -44,9 +51,7 @@ class HandleRetriever():
 
 
             # Prepare response data with error information
-            response_data = {
-                'source': self.source,
-            }
+            response_data = {}
             # Add results to response_data, checking for errors
             for key, value in results.items():
                 if isinstance(value, dict) and 'error' in value:
@@ -57,7 +62,7 @@ class HandleRetriever():
 
         #开始入向量库
         print("🔄 正在初始化向量库...")
-        vector_store = init_vector_store(embedding_dim=3072)
+        vector_store = init_vector_store("brian-test")
         print("🔄 正在处理分类结果...")
         documents = create_documents_from_results(response_data)
         print(f"✅ 成功创建 {len(documents)} 个文档")

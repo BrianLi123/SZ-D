@@ -36,12 +36,15 @@ async def upload_documents_for_chat(
         with open(file_path, "wb") as f:
             f.write(content)
         file_paths.append(file_path)
-        file_name = Tender_2docblob(file_path)
-        HandleRetriever().handle(file_name)
+        print("保存文件成功文件路劲是===",file_path)
+        # file_name = Tender_2docblob(file_path)
+        
+        print("文件名是===",os.path.splitext(file.filename)[0])
+        HandleRetriever().handle(os.path.splitext(file.filename)[0])
         
         return {
             "status": "processing",
-            "message": f"已接收{len(file)}个文件，正在后台处理"
+            "message": f"数据上传成功！"
         }
         
     except Exception as e:
