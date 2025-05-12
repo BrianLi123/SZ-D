@@ -128,15 +128,39 @@ async def stream_llm_response(
         ])
 
         # 构造增强prompt
-        rag_prompt = f"""基于以下分类信息回答：
+        rag_prompt = f"""
+        Resources:
         {context}
         
-        问题：{prompt}
+        Question:{prompt}
         
-        要求：
-        1. 用中文回答，保持技术文档的专业性
-        2. 严格根据信息类别筛选相关内容
-        3. 标注引用来源的类别信息"""
+        [Requirements]
+        1. **Data Parsing & Tabular Presentation**
+           - Extract key information based on different categories (e.g., 'Schedule', 'Team', etc.) and organize them into separate Markdown tables. Each table should have appropriate headers (e.g., for 'Schedule', headers could be 'ID', 'Milestone', 'Completion Date', 'Deliverables'; for 'Team', headers might include 'Name', 'Role', 'Responsibilities').
+           - Sort entries within each category logically (e.g., chronologically for schedules, hierarchically for teams).
+
+        2. **Content Enrichment & Interpretation**
+           - Add brief descriptions for each entry (e.g., for 'Schedule' milestones, explain goals, key activities, and dependencies; for 'Team' members, clarify roles and expertise).
+           - Analyze the of each category's data (e.g., assess schedule feasibility, identify potential risks; evaluate team composition against project requirements).
+           - Infer the overall project nature and possible use cases based on cross-category data.
+
+        3. **Visualization Recommendations**
+           - Recommend the most suitable visualization type for each category (e.g., Gantt charts for schedules, organizational charts for teams, flowcharts for functional processes).
+           - If using timelines/flowcharts, highlight critical paths, dependencies, or key milestones.
+
+        4. **Best Practice Alignment**
+           - Compare each category against industry best practices (e.g., software development lifecycle for schedules, Agile team structures for teams).
+           - Propose 1-2 actionable optimization suggestions per category (e.g., adjusting timelines, reallocating resources, refining acceptance criteria).
+
+        5. **Additional Notes**
+           - Flag potential ambiguities or data gaps (e.g., conflicting timepoints, missing roles).
+           - Highlight critical entries that require special attention (e.g., key deliverables, bottleneck tasks).
+
+        [Output Format]
+        - Use standard Markdown tables (separate columns with |).
+        - Organize explanations under clear subheadings.
+        - Include simple diagrams or Mermaid code for visualizations.
+        - Ensure optimization suggestions are specific and evidence-based."""
         
         # 初始化LLM
         llm = AzureChatOpenAIUtil("gpt4o").llm
