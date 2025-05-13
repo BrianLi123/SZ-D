@@ -5,6 +5,10 @@ import { getChatStream } from '@/services/chat';
 
 import Answer from './components/Answer';
 const { TextArea } = Input;
+export type ChatTurn = {
+  user: string;
+  bot?: string;
+};
 
 const ChatBox: React.FC = () => {
   const [messages, setMessages] = useState<[string, any][]>([]);
@@ -12,6 +16,7 @@ const ChatBox: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [colorChangeFlag, setColorChangeFlag] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const containerRef: any = useRef(null); // 用于监听滚动事件的容器
 
   const sendMessage = async () => {
     if (!inputValue.trim()) return;
@@ -22,14 +27,15 @@ const ChatBox: React.FC = () => {
     // 模拟机器人响应
     setLoading(true);
     try {
+      const history: ChatTurn[] = messages.map((a) => ({
+        user: a[0],
+        bot: a[1]
+      }));
+
       const params = {
         approach: '',
         chatroomID: 'fwagwe',
-        history: [
-          {
-            user: inputValue
-          }
-        ]
+        history: [...history, { user: inputValue, bot: undefined }]
       };
       const res = await getChatStream(params);
 
@@ -56,18 +62,23 @@ const ChatBox: React.FC = () => {
   // 自动滚动到底部
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [loading]);
 
   return (
     <div className="chat-box">
-      <div className="chat-messages">
+      <div className="chat-messages" ref={containerRef}>
         <div className="chat-messages-list">
           {messages.map((message, index) => (
             <Fragment key={index}>
               <div className="message user">{message[0]}</div>
-              {!loading && (
+              {message[1] && (
                 <div className="message bot">
-                  <Answer ansIndex={index} answer={message[1]} setMessages={setMessages} />
+                  <Answer
+                    ansIndex={index}
+                    answer={message[1]}
+                    setMessages={setMessages}
+                    containerRef={containerRef}
+                  />
                 </div>
               )}
             </Fragment>

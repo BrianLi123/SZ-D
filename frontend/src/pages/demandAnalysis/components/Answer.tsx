@@ -8,10 +8,18 @@ import rehypeRaw from 'rehype-raw';
 interface AnswerProps {
   ansIndex: number;
   answer: any;
+  containerRef: React.RefObject<HTMLDivElement>;
   setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 }
-export default function Answer({ ansIndex, answer, setMessages }: AnswerProps) {
+export default function Answer({
+  ansIndex,
+  answer,
+  containerRef,
+  setMessages
+}: AnswerProps) {
   const [displalyAnswer, setDisplalyAnswer] = useState('');
+  const [doneFlag, setDoneFlag] = useState(false);
+  const [autoScroll, setAutoScroll] = useState(true); // 是否启用自动滚动
 
   function parseData(data: string): any {
     const regex = /data:.*?"token":\s*"([^"]*)"}/g;
@@ -19,9 +27,9 @@ export default function Answer({ ansIndex, answer, setMessages }: AnswerProps) {
     return chunkStr;
   }
 
+  // 处理流式数据和和逐字打印
   useEffect(() => {
     const readerEventStream = async (answer: any) => {
-      console.log('answer', answer);
       if (answer?.body) {
         // 检查流是否被锁定
         if (answer.body.locked) {
@@ -41,23 +49,14 @@ export default function Answer({ ansIndex, answer, setMessages }: AnswerProps) {
           if (buffer.length > 0) {
             let char = buffer.shift();
             char = char.replace(/\\n/g, '  \n'); // 替换换行符
-            // setDisplalyAnswer((prev) => prev + char))
             setDisplalyAnswer((prev) => {
               const newText = prev + char;
-              // 滚动到底部
-              //   if (messagesEndRef.current) {
-              //     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-              //   }
               return newText;
             });
             timer = setTimeout(processBuffer, 15);
           } else {
             isProcessing = false;
-            console.log('displalyAnswer', displalyAnswer);
-            // setMessages((prev) => {
-            //   prev[ansIndex][1] = chunkData;
-            //   return prev;
-            // });
+            setDoneFlag(true);
           }
         };
         try {
@@ -91,6 +90,46 @@ export default function Answer({ ansIndex, answer, setMessages }: AnswerProps) {
     };
     readerEventStream(answer);
   }, []);
+  // 当 displalyAnswer 更新时触发滚动
+  useEffect(() => {
+    // 自动滚动函数 滚动到底部
+    const scrollToBottom = () => {
+      if (containerRef.current?.scrollIntoView) {
+        containerRef.current.scrollTo({
+          top: containerRef.current.scrollHeight
+        });
+      }
+    };
+
+    if (autoScroll && containerRef.current) {
+      scrollToBottom();
+    }
+  }, [displalyAnswer, doneFlag]);
+  // 监听用户滚动事件。手动滚动超过10 则停止跟随(更新时新增内容)滚动
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const handleScroll = () => {
+      // 判断用户是否手动滚动
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      const isAtBottom = scrollHeight - (scrollTop + clientHeight) < 10; // 10 是容差范围
+      // 如果用户滚动到底部，则恢复自动滚动；否则停止自动滚动
+      setAutoScroll(isAtBottom);
+    };
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  useEffect(() => {
+    if (doneFlag) {
+      setMessages((prev) => {
+        prev[ansIndex][1] = displalyAnswer;
+        return prev;
+      });
+    }
+  }, [doneFlag]);
+
   return (
     <>
       <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
