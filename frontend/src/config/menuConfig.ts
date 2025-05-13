@@ -23,6 +23,16 @@ export const menus: MenuItem[] = [
   {
     label: '上传文档',
     key: '/uploadDocument',
-    icon: 'UserOutlined',
+    icon: 'UserOutlined'
+  },
+  {
+    label: '成本分析',
+    key: '/costAnalysis'
+    // icon: 'UserOutlined',
+  },
+  {
+    label: '权限控制',
+    key: '/permission'
+    // icon: 'UserOutlined',
   }
 ];

@@ -21,7 +21,7 @@ export const testApi = async () => {
 //   return res;
 // };
 export const getChatStream = async (params: any) => {
-  const response = await fetch('http://localhost:3004/api/chat/stream', {
+  const response = await fetch('api/chat/stream', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
