@@ -4,9 +4,10 @@ from typing import List, Dict, Optional
 from fastapi import UploadFile
 
 class ChatRequest(BaseModel):
-    history: List[Dict[str, str]]
+    history: List[dict]
     approach: str
     chatroomID: str
+    
     # index_name: str = "default-index"
 
 class DocumentUploadRequest(BaseModel):

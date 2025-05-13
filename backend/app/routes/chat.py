@@ -13,7 +13,8 @@ from rag.tender_summary import HandleRetriever
 from rag.blob_client import Tender_2docblob
 # 初始化LLM（示例实现）
 from utils.AzureChatOpenAIUtil import AzureChatOpenAIUtil
-from typing import Optional
+from typing import Optional,Dict
+import tiktoken
 # 创建路由实例
 chat = APIRouter(prefix="/chat", tags=["Chat Operations"])
 
@@ -61,14 +62,12 @@ async def chat_stream(
             print("进入流式聊天接口")
             retriever = AdvancedRetriever()   
             
-            # 提取用户历史提问
-            prompt = " ".join(
-                item["user"] for item in request.history if "user" in item
-            ).strip()
-            print(f"收到请求：{prompt}")
+            # 提取用户提问
+            userInput = request.history[-1]['user']
+            print(f"收到请求：{userInput}")
             
             # 流式生成响应
-            async for token in stream_llm_response(prompt, retriever):
+            async for token in stream_llm_response(userInput,request.history, retriever):
                 # 关键修改：明确指定 JSON 编码
                 json_data = json.dumps({'token': token}, ensure_ascii=False)
                 yield f"data: {json_data}\n\n".encode('utf-8')
@@ -93,16 +92,19 @@ async def chat_stream(
 
 # 增强的流式生成器（新增类别过滤）
 async def stream_llm_response(
-    prompt: str,
+    userInput: str,
+    history: List[dict],
     retriever: AdvancedRetriever
 ) -> AsyncGenerator[str, None]:
     try:
+        history = get_chat_history_as_text(history)
+        print(f"历史记录：{history}")
         # 识别问题类别
-        category = determine_category(prompt)
+        category = determine_category(userInput)
         print(f"识别到问题类别：{category or '无特定类别'}")
         
         # RAG上下文检索（带类别过滤）
-        docs = await retriever._aget_relevant_documents(prompt, category=category)
+        docs = await retriever._aget_relevant_documents(userInput, category=category)
         # context = "\n\n".join([f"【{doc.metadata['category']}类信息】{doc.page_content}" for doc in docs])
         
         print(f"检索到相关文档：{docs}")
@@ -127,12 +129,19 @@ async def stream_llm_response(
             for doc in processed_docs
         ])
 
+        # 向量有点问题，这里暂时先处理下
+        if category =="无特定类别":
+            context = ""
+
         # 构造增强prompt
         rag_prompt = f"""
         Resources:
         {context}
+
+        history:
+        {history}
         
-        Question:{prompt}
+        Question:{userInput}
         
         [Requirements]
         1. **Data Parsing & Tabular Presentation**
@@ -156,6 +165,8 @@ async def stream_llm_response(
            - Flag potential ambiguities or data gaps (e.g., conflicting timepoints, missing roles).
            - Highlight critical entries that require special attention (e.g., key deliverables, bottleneck tasks).
 
+        6, If the Resources is empty, the response is "Please upload the business file first.
+        
         [Output Format]
         - Use standard Markdown tables (separate columns with |).
         - Organize explanations under clear subheadings.
@@ -188,3 +199,38 @@ def determine_category(prompt: str) -> Optional[str]:
         if any(keyword in prompt_lower for keyword in keywords):
             return category.title()  # 返回首字母大写的类别名称
     return None
+
+def get_chat_history_as_text(history, include_last_turn=True, approx_max_tokens=1000) -> str:
+    """安全处理可能缺失bot字段的对话历史"""
+    encoder = tiktoken.get_encoding("cl100k_base")
+    history_text = []
+    current_tokens = 0
+    processed_history = history if include_last_turn else history[:-1]
+
+    for h in reversed(processed_history):
+        # 安全获取字段（兼容bot键缺失或值为空）
+        user_content = h.get("user", "[Deleted Content]")  # 处理user缺失
+        bot_content = h.get("bot")  # 安全访问bot键
+        
+        # 构建对话段
+        user_part = f"<|im_start|>user\n{user_content}\n<|im_end|>"
+        bot_part = ""
+        if bot_content:  # 仅在bot内容存在时添加
+            bot_part = f"\n<|im_start|>assistant\n{bot_content}\n<|im_end|>"
+        
+        # 合并并计算TOKEN
+        segment = user_part + bot_part
+        try:
+            segment_tokens = len(encoder.encode(segment))
+        except Exception as e:
+            print(f"Tokenization error: {e}")
+            continue  # 跳过编码异常的片段
+        
+        # TOKEN控制
+        if current_tokens + segment_tokens > approx_max_tokens:
+            break
+            
+        history_text.insert(0, segment)
+        current_tokens += segment_tokens
+    
+    return "\n\n".join(history_text)

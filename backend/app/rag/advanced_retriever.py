@@ -30,6 +30,7 @@ class AdvancedRetriever(BaseRetriever):
             filter=search_filter,
             score_threshold=score_threshold,
         )
+        print("1111")
         print(f"检索到{len(results)}条结果（类别过滤：{category or '无'}）")
         return results
 
@@ -53,5 +54,6 @@ class AdvancedRetriever(BaseRetriever):
             k=top_k,
             filters=search_filter,
         )
+        print("2222")
         print(f"异步检索到{len(results)}条结果（类别过滤：{category or '无'}）")
         return results
