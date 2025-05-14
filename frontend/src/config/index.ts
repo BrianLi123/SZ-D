@@ -6,7 +6,7 @@ const config = {
   },
   // 请求配置
   api: {
-    baseUrl: 'http://localhost:3004/api',
+    baseUrl: 'http://localhost:3003/api',
     timeout: 30000,
     sessionKey: 'sessionkey',
     status: {

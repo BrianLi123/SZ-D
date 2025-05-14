@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Select } from 'antd';
 import './index.css';
 import { getChatStream } from '@/services/chat';
 
 import Answer from './components/Answer';
+import { ArrowUpOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 export type ChatTurn = {
   user: string;
   bot?: string;
 };
 
-const ChatBox: React.FC = () => {
+const DemandAnalysis: React.FC = () => {
   const [messages, setMessages] = useState<[string, any][]>([]);
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -59,57 +60,81 @@ const ChatBox: React.FC = () => {
     }
   };
 
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
   // 自动滚动到底部
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [loading]);
 
   return (
-    <div className="chat-box">
-      <div className="chat-messages" ref={containerRef}>
-        <div className="chat-messages-list">
-          {messages.map((message, index) => (
-            <Fragment key={index}>
-              <div className="message user">{message[0]}</div>
-              {message[1] && (
-                <div className="message bot">
-                  <Answer
-                    ansIndex={index}
-                    answer={message[1]}
-                    setMessages={setMessages}
-                    containerRef={containerRef}
-                  />
-                </div>
-              )}
-            </Fragment>
-          ))}
-          {loading && <div className="message bot">Generating answer...</div>}
-          <div ref={messagesEndRef} />
-        </div>
-        <div className="chat-input">
-          <Button
-            color={colorChangeFlag ? 'primary' : undefined}
-            className="chat-button"
-            shape="round"
-            variant="filled"
-            onClick={() => setColorChangeFlag(!colorChangeFlag)}
-          >
-            深度思考
-          </Button>
-          <TextArea
-            placeholder="Ask a question..."
-            autoSize={{ maxRows: 1 }}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <Button type="primary" loading={loading} onClick={sendMessage}>
-            Send
-          </Button>
+    <div className="chat-container">
+      <Select
+        defaultValue="deepseek"
+        style={{ width: 150, position: 'absolute', left: 16 }}
+        onChange={handleChange}
+        options={[
+          { value: 'GPT4O', label: 'GPT4O' },
+          { value: 'deepseek', label: 'deepseek' }
+        ]}
+      />
+      <div className="chat-box">
+        <div className="chat-messages" ref={containerRef}>
+          <div className="chat-messages-list">
+            {messages.map((message, index) => (
+              <Fragment key={index}>
+                <div className="message user">{message[0]}</div>
+                {message[1] && (
+                  <div className="message bot">
+                    <Answer
+                      ansIndex={index}
+                      answer={message[1]}
+                      setMessages={setMessages}
+                      containerRef={containerRef}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            ))}
+            {loading && <div className="message bot">Generating answer...</div>}
+            <div ref={messagesEndRef} />
+          </div>
+          <div className="chat-input">
+            <Button
+              color={colorChangeFlag ? 'primary' : undefined}
+              className="chat-button"
+              shape="round"
+              variant="filled"
+              onClick={() => setColorChangeFlag(!colorChangeFlag)}
+            >
+              深度思考
+            </Button>
+            <TextArea
+              placeholder="Ask a question..."
+              autoSize={{ maxRows: 1 }}
+              value={inputValue}
+              variant="borderless"
+              size="large"
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <Button
+              // type="primary"
+              loading={loading}
+              // disabled
+              shape="circle"
+              color="primary"
+              variant="solid"
+              icon={<ArrowUpOutlined />}
+              style={{ fontSize: '20px' }}
+              onClick={sendMessage}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ChatBox;
+export default DemandAnalysis;
