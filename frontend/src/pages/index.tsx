@@ -1,3 +1,3 @@
-import Dashboard from '@/pages/dashboard/index';
+import DemandAnalysis from '@/pages/demandAnalysis';
 
-export default Dashboard;
+export default DemandAnalysis;

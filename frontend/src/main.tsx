@@ -11,6 +11,7 @@ import { ThemeColorConfigProvider } from '@/components/ThemeColors';
 import 'antd/dist/reset.css';
 import './App.css';
 import './assets/css/global.less';
+import './assets/css/markdown.less';
 
 // initUserInfo();
 
