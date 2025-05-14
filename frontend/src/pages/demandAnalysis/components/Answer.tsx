@@ -22,7 +22,8 @@ export default function Answer({
   const [autoScroll, setAutoScroll] = useState(true); // 是否启用自动滚动
 
   function parseData(data: string): any {
-    const regex = /data:.*?"token":\s*"([^"]*)"}/g;
+    // 解析数据中token属性值。如data: {"token": " aa"} => aa
+    const regex = /data:.*?"token":\s*"((?:\\"|[^"])*?)"}/g;
     let chunkStr = data.replace(regex, '$1');
     return chunkStr;
   }
@@ -77,7 +78,7 @@ export default function Answer({
             chunk = parseData(chunk);
 
             buffer.push(...chunk.split('\n\n'));
-            // console.log("chunk", chunk, chunk.split("\n\n"));
+            // console.log('chunk', chunk, chunk.split('\n\n'));
             if (!isProcessing) {
               isProcessing = true;
               processBuffer();
