@@ -109,34 +109,28 @@ async def stream_llm_response(
         
         print(f"检索到相关文档：{docs}")
         # 处理返回结果格式
-        processed_docs = []
+        result_list = []
         for item in docs:
-            if isinstance(item, tuple):
-                # 假设元组格式为 (document, score)
-                doc = item[0]
-                if hasattr(doc, 'metadata'):
-                    processed_docs.append(doc)
-            elif hasattr(item, 'metadata'):
-                processed_docs.append(item)
-        
-        if not processed_docs:
-            yield "抱歉，没有找到相关信息。"
-            return
-            
-        # 构建上下文，包含类别信息
-        context = "\n\n".join([
-            f"【{doc.metadata.get('category', '未知类别')}类信息】{doc.page_content}" 
-            for doc in processed_docs
-        ])
+            doc = item[0]
+            category = doc.metadata['category']
+            try:
+                page_content = eval(doc.page_content)
+            except:
+                page_content = doc.page_content
+            record = {
+                "category": category,
+                "page_content": page_content
+            }
+            result_list.append(record)
 
         # 向量有点问题，这里暂时先处理下
         if category =="无特定类别":
-            context = ""
-
+            result_list = ""
+        print(f"上下文：{result_list}")
         # 构造增强prompt
         rag_prompt = f"""
         Resources:
-        {context}
+        {result_list}
 
         history:
         {history}
@@ -144,14 +138,14 @@ async def stream_llm_response(
         Question:{userInput}
         
         [Requirements]
-        1. **Data Parsing & Tabular Presentation**
-           - Extract key information based on different categories (e.g., 'Schedule', 'Team', etc.) and organize them into separate Markdown tables. Each table should have appropriate headers (e.g., for 'Schedule', headers could be 'ID', 'Milestone', 'Completion Date', 'Deliverables'; for 'Team', headers might include 'Name', 'Role', 'Responsibilities').
-           - Sort entries within each category logically (e.g., chronologically for schedules, hierarchically for teams).
+        1. ** Data Parsing and Table representation **
+            Output complete information based on different categories (such as "Schedule", "Team", etc.) and organize it into separate Markdown tables. Each table should have an appropriate title (for example, for "Schedule", the title can be "ID", "Milestone", "Completion Date", "Deliverable";) For "Team", the title may include "Name", "Role", "Responsibilities".
+            Logically sort the entries in each category (for example, schedules are sorted in chronological order and teams in hierarchical order).
 
-        2. **Content Enrichment & Interpretation**
-           - Add brief descriptions for each entry (e.g., for 'Schedule' milestones, explain goals, key activities, and dependencies; for 'Team' members, clarify roles and expertise).
-           - Analyze the of each category's data (e.g., assess schedule feasibility, identify potential risks; evaluate team composition against project requirements).
-           - Infer the overall project nature and possible use cases based on cross-category data.
+        2. **Rich Content and Interpretation
+            Add a brief description for each entry (for example, "Schedule" milestones, explanations of goals, key activities and dependencies;) For the "team" members, clarify their roles and professional knowledge.
+            Analyze the data of each category (for example, assess the feasibility of progress and identify potential risks; Evaluate the team composition based on the project requirements.
+            Infer the overall nature of the project and possible use cases based on cross-category data.
 
         3. **Visualization Recommendations**
            - Recommend the most suitable visualization type for each category (e.g., Gantt charts for schedules, organizational charts for teams, flowcharts for functional processes).
@@ -165,8 +159,6 @@ async def stream_llm_response(
            - Flag potential ambiguities or data gaps (e.g., conflicting timepoints, missing roles).
            - Highlight critical entries that require special attention (e.g., key deliverables, bottleneck tasks).
 
-        6, If the Resources is empty, the response is "Please upload the business file first.
-        
         [Output Format]
         - Use standard Markdown tables (separate columns with |).
         - Organize explanations under clear subheadings.
