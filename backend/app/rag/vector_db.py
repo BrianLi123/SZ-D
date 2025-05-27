@@ -57,7 +57,7 @@ def init_vector_store(index_name: str) -> AzureSearch:
         fields=fields
     )
 
-def create_documents_from_results(results: dict) -> List[Document]:
+def create_documents_from_results(results: dict, file_name: str) -> List[Document]:
     all_documents = []
     for category in ['acceptance', 'functional', 'schedule', 'team']:
         if category in results:
@@ -76,7 +76,7 @@ def create_documents_from_results(results: dict) -> List[Document]:
                     page_content=content,
                     metadata={
                         "category": category.title(),
-                        "source": "results_dict"
+                        "source": file_name
                     },
                     id=doc_id
                 )

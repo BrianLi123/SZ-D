@@ -24,7 +24,7 @@ if service_endpoint is None:
 else:
     print("AZURE_OPENAI_GPT35_SERVICE 环境变量加载成功。")
 
-from app.routes.chat import chat
+from routes.chat import chat
 from fastapi import FastAPI,APIRouter
 
 # 创建应用实例
