@@ -101,6 +101,7 @@ async def stream_llm_response(
         print(f"历史记录：{history}")
         # 识别问题类别
         category = determine_category(userInput)
+        print(f"识别到问题类别category的值是：",category )
         print(f"识别到问题类别：{category or '无特定类别'}")
         
         # RAG上下文检索（带类别过滤）
@@ -123,9 +124,7 @@ async def stream_llm_response(
             }
             result_list.append(record)
 
-        # 向量有点问题，这里暂时先处理下
-        if category =="无特定类别":
-            result_list = ""
+
         print(f"上下文：{result_list}")
         # 构造增强prompt
         rag_prompt = f"""
@@ -164,15 +163,19 @@ async def stream_llm_response(
         - Organize explanations under clear subheadings.
         - Include simple diagrams or Mermaid code for visualizations.
         - Ensure optimization suggestions are specific and evidence-based."""
-        
-        # 初始化LLM
-        llm = AzureChatOpenAIUtil("gpt4o").llm
-        
-        # 流式生成
-        async for chunk in llm.astream(rag_prompt):
-            content = chunk.content if hasattr(chunk, 'content') else ""
-            if content:
-                yield content
+        print(f" category==",category)
+        # 向量有点问题，这里暂时先处理下
+        if category =="无特定类别":
+            yield "This bot is only used for requirements analysis. Please ask relevant questions after uploading the file！"
+        else:
+            # 初始化LLM
+            llm = AzureChatOpenAIUtil("gpt4o").llm
+
+            # 流式生成
+            async for chunk in llm.astream(rag_prompt):
+                content = chunk.content if hasattr(chunk, 'content') else ""
+                if content:
+                    yield content
                 
     except Exception as e:
         yield f"[ERROR] 生成失败: {str(e)}"
