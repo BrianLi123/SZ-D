@@ -41,8 +41,9 @@ async def upload_documents_for_chat(
         # file_name = Tender_2docblob(file_path)
         
         print("文件名是===",os.path.splitext(file.filename)[0])
-        HandleRetriever().handle(os.path.splitext(file.filename)[0])
-        
+        result = HandleRetriever().handle(os.path.splitext(file.filename)[0])
+        if not result:
+            return "⚠️ 该文件已存在向量库中，请勿重复上传"
         return {
             "status": "processing",
             "message": f"数据上传成功！"

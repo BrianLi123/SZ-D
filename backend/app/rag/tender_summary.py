@@ -63,8 +63,15 @@ class HandleRetriever():
         #开始入向量库
         print("🔄 正在初始化向量库...")
         vector_store = init_vector_store("brian-test")
+        #判断文件是否已上传
+        results = vector_store.similarity_search(query="", k=1000)
+        if results:
+            for doc in results:
+                source = doc.metadata['source']
+                if source == file_name.split(".")[0]:
+                    return False
         print("🔄 正在处理分类结果...")
-        documents = create_documents_from_results(response_data)
+        documents = create_documents_from_results(response_data, file_name)
         print(f"✅ 成功创建 {len(documents)} 个文档")
         print("🔄 正在写入数据...")
         vector_store.add_documents(documents)
@@ -139,7 +146,7 @@ class HandleRetriever():
                             """)
         acceptance_dicts = acceptance_chain.invoke({"query": request_input})
 
-        return acceptance_dicts
+        return acceptance_dicts["request_list"]
 
         # Team Structure
     def handle_Team(self,docs):
@@ -169,7 +176,7 @@ class HandleRetriever():
                             "show Team structure in tabular table"
                             """)
         structure_dicts = structure_chain.invoke({"query": request_input})
-        return structure_dicts
+        return structure_dicts["request_list"]
 
     # Functional Points
     def handle_Functional(self,docs):   
@@ -198,4 +205,4 @@ class HandleRetriever():
                             "show Functional Point in tabular table"
                             """)
         functional_dicts = functional_chain.invoke({"query": request_input}) 
-        return functional_dicts
+        return functional_dicts["Functional_point_list"]
